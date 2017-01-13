@@ -74,7 +74,7 @@
 <pre>
 ./graph CENTER center_between.txt Between
 </pre>
-算法时间复杂度较高（总时间大约11s）。
+算法时间复杂度较高（总时间大约3s）。
 
 输出的第一行为节点数。
 

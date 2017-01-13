@@ -277,11 +277,23 @@ NodeDoubleList* Graph::betweenness()
             }
         }
     }
-    std::cout << "good\n";
     double* sigma = new double[n];
     bool* used = new bool[n];
     int* order = new int[n];
     double* sum = new double[n];
+    
+    std::vector<std::vector<int>> pt(n);
+    std::vector<std::vector<double>> val(n);
+    for (int u = 0; u < n; ++u)
+    {
+        for (int j = head[u]; j != -1; j = next[j])
+        {
+            int v = edge[j];
+            double w = value[j];
+            pt[u].push_back(v);
+            val[u].push_back(w);
+        }
+    }
     
     for (int s = 0; s < n; ++s)
     {
@@ -311,19 +323,17 @@ NodeDoubleList* Graph::betweenness()
             used[sel] = true;
         }
         
-        int cnttt = 0;
         for (int i = 0; i < od; ++i)
         {
             int u = order[i];
-            for (int j = head[u]; j != -1; j = next[j])
+            for (int j = 0; j < pt[u].size(); ++j)
             {
-                int v = edge[j];
-                double w = value[j];
+                int v = pt[u][j];
+                double w = val[u][j];
                 if (std::fabs(dist[s][v] - dist[s][u] - w) < 1e-6)
                 {
                     sigma[v] += sigma[u];
                     p[v].push_back(u);
-                    ++cnttt;
                 }
             }
         }
