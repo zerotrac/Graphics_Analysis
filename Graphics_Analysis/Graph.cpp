@@ -135,8 +135,8 @@ EdgeList* Graph::dijkstra(int s, int t)
 {
     std::priority_queue<Tuple2> q;
     double* dist = new double[n];
-    bool* used = new bool[n];
     int* prev = new int[n];
+    bool* used = new bool[n];
     for (int i = 0; i < n; ++i)
     {
         dist[i] = INFINITY;
@@ -166,6 +166,7 @@ EdgeList* Graph::dijkstra(int s, int t)
             }
         }
     }
+    
     int edgesCount = 0;
     int curNode = t;
     while (curNode != s)
@@ -177,8 +178,8 @@ EdgeList* Graph::dijkstra(int s, int t)
     build(result, dist, prev, t);
     
     delete[] dist;
-    delete[] used;
     delete[] prev;
+    delete[] used;
     
     return result;
 }
@@ -188,9 +189,53 @@ EdgeList* Graph::spfa(int s, int t)
     std::queue<int> q;
     double* dist = new double[n];
     int* prev = new int[n];
-    bool
+    bool* used = new bool[n];
+    for (int i = 0; i < n; ++i)
+    {
+        dist[i] = INFINITY;
+        prev[i] = -1;
+        used[i] = false;
+    }
+    dist[s] = 0;
+    used[s] = true;
+    q.push(s);
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        for (int i = head[u]; i != -1; i = next[i])
+        {
+            int v = edge[i];
+            double w = value[i];
+            if (dist[u] + w < dist[v])
+            {
+                dist[v] = dist[u] + w;
+                prev[v] = u;
+                if (!used[v])
+                {
+                    q.push(v);
+                    used[v] = true;
+                }
+            }
+        }
+        used[u] = false;
+    }
     
-    return new EdgeList(0);
+    int edgesCount = 0;
+    int curNode = t;
+    while (curNode != s)
+    {
+        ++edgesCount;
+        curNode = prev[curNode];
+    }
+    EdgeList* result = new EdgeList(edgesCount);
+    build(result, dist, prev, t);
+    
+    delete[] dist;
+    delete[] prev;
+    delete[] used;
+    
+    return result;
 }
 
 int Graph::findset(int *fa, int x)
@@ -207,6 +252,5 @@ void Graph::uni(int *fa, int x, int y)
 void Graph::build(EdgeList* result, const double* dist, const int* prev, int curNode)
 {
     if (prev[curNode] != -1) build(result, dist, prev, prev[curNode]); else return;
-    std::cout << "x, y = " << prev[curNode] << " " << curNode << std::endl;
     result->addEdge(prev[curNode], curNode, dist[curNode] - dist[prev[curNode]]);
 }
