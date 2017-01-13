@@ -50,6 +50,8 @@ public:
     EdgeList* spfa(int s, int t); // O(km), k的期望大约为2
     EdgeList* dijkstra(int s, int t); // O(nlogn + m)
     
+    // 中心度算法
+    
 private:
     // kruskal算法辅助函数（并查集）
     int findset(int* fa, int x);

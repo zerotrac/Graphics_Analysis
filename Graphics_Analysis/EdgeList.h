@@ -16,7 +16,6 @@
 // 作用是作为一些图类的成员函数的返回值
 // 全public
 
-
 class EdgeList
 {
 public:
