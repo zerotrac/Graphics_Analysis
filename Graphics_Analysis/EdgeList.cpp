@@ -12,10 +12,12 @@ EdgeList::EdgeList(int _m)
 {
     m = _m;
     curM = 0;
+    value = 0.0;
     
+    std::cerr << "m = " << m << " " << _m << std::endl;
     x = new int[m];
     y = new int[m];
-    z = new int[m];
+    z = new double[m];
 }
 
 EdgeList::~EdgeList()
@@ -25,16 +27,22 @@ EdgeList::~EdgeList()
     delete[] z;
 }
 
-void EdgeList::addEdge(int _x, int _y, int _z)
+void EdgeList::addEdge(int _x, int _y, double _z)
 {
     if (curM >= m) return;
     x[curM] = _x;
     y[curM] = _y;
     z[curM] = _z;
+    value += _z;
     ++curM;
 }
 
-void EdgeList::setValue(int _value)
+void EdgeList::print(std::ofstream& out)
 {
-    value = _value;
+    out << m << std::endl;
+    for (int i = 0; i < m; ++i)
+    {
+        out << x[i] << " " << y[i] << " " << z[i] << std::endl;
+    }
+    out << value << std::endl;
 }
