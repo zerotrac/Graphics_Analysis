@@ -145,7 +145,6 @@ EdgeList* Graph::dijkstra(int s, int t)
     }
     dist[s] = 0.0;
     q.push(Tuple2(s, dist[s]));
-    //EdgeList* result = new EdgeList(n - 1);
     
     while (!q.empty())
     {
@@ -175,7 +174,6 @@ EdgeList* Graph::dijkstra(int s, int t)
         curNode = prev[curNode];
     }
     EdgeList* result = new EdgeList(edgesCount);
-    std::cout << "s, t = " << s << " " << t << std::endl;
     build(result, dist, prev, t);
     
     delete[] dist;
@@ -187,6 +185,10 @@ EdgeList* Graph::dijkstra(int s, int t)
 
 EdgeList* Graph::spfa(int s, int t)
 {
+    std::queue<int> q;
+    double* dist = new double[n];
+    int* prev = new int[n];
+    bool
     
     return new EdgeList(0);
 }

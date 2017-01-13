@@ -13,7 +13,7 @@ int main(int argc, const char* argv[])
 {
     //Algo::discrete();
     //Algo::randomGraph();
-    Algo::floyd();
+    //Algo::floyd();
     std::ifstream in("data_new.txt");
     std::ofstream out(argv[2]);
     out << std::fixed << std::setprecision(3);

@@ -111,6 +111,7 @@ public:
         for (int k = 0; k < n; ++k)
         {
             for (int i = 0; i < n; ++i)
+            {
                 for (int j = 0; j < n; ++j)
                 {
                     if (dist[i][k] + dist[k][j] < dist[i][j])
@@ -118,18 +119,22 @@ public:
                         dist[i][j] = dist[i][k] + dist[k][j];
                     }
                 }
-            std::cout << "k = " << k << " complete\n";
+            }
         }
         int xx = 0, yy = 0;
         double zz = 0.0;
         for (int i = 0; i < n; ++i)
+        {
             for (int j = 0; j < n; ++j)
+            {
                 if (dist[i][j] > zz)
                 {
                     xx = i;
                     yy = j;
                     zz = dist[i][j];
                 }
+            }
+        }
         std::cout << "min = " << xx << " " << yy << " " << zz << std::endl;
         
         for (int i = 0; i < n; ++i) delete[] dist[i];
