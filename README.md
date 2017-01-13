@@ -1,6 +1,6 @@
 # DSA图论大作业
 ## 写在最前
-原数据里面有81个孤立节点，我把它们都删掉了，然后对节点重新编号，最终的数据放在(`data_new.txt`)里面了，（原数据在(`data.txt`)里面）。
+原数据里面有81个孤立节点，我把它们都删掉了，然后对节点重新编号，最终的数据放在(`data_new.txt`)里面了，原数据在(`data.txt`)里面。
 ## 用法
 使用命令行参数运行，一般的形式是：
 <pre>
@@ -43,13 +43,13 @@
 
 (`parameter`)有两项，表示起点和终点。
 <pre>
-PATH path_dijkstra.txt Dijkstra 310 479
+./graph PATH path_dijkstra.txt Dijkstra 310 479
 </pre>
 或者
 <pre>
-PATH path_spfa.txt Spfa 310 479
+./graph PATH path_spfa.txt Spfa 310 479
 </pre>
-原图非常密集，直径为6.7，就是310和479为两个端点。
+原图非常密集，直径为6.700，就是310和479为两个端点。
 ### 中心度
 还没写
 ### 联通分量
