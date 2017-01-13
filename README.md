@@ -70,13 +70,13 @@
 
 (`parameter`)为空。
 
-##### 介数中心度：
+#### 介数中心度：
 <pre>
 ./graph CENTER center_between.txt Between
 </pre>
 正在看算法。
 
-##### 紧密中心度：
+#### 紧密中心度：
 <pre>
 ./graph CENTER center_close.txt Close
 </pre>
