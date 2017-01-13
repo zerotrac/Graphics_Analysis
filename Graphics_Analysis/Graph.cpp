@@ -238,6 +238,61 @@ EdgeList* Graph::spfa(int s, int t)
     return result;
 }
 
+NodeIntList* Graph::betweenness()
+{
+    return new NodeIntList(0);
+}
+
+NodeDoubleList* Graph::closeness()
+{
+    double** dist = new double*[n];
+    for (int i = 0; i < n; ++i)
+    {
+        dist[i] = new double[n];
+        for (int j = 0; j < n; ++j)
+        {
+            dist[i][j] = INFINITY;
+        }
+    }
+    for (int u = 0; u < n; ++u)
+    {
+        for (int i = head[u]; i != -1; i = next[i])
+        {
+            int v = edge[i];
+            dist[u][v] = value[i];
+        }
+    }
+    for (int k = 0; k < n; ++k)
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                if (dist[i][k] + dist[k][j] < dist[i][j])
+                {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+    
+    NodeDoubleList* nodelist = new NodeDoubleList(n);
+    for (int i = 0; i < n; ++i)
+    {
+        double sum = 0;
+        for (int j = 0; j < n; ++j)
+        {
+            sum += dist[i][j];
+        }
+        nodelist->setValue(i, sum);
+    }
+    
+    for (int i = 0; i < n; ++i) delete[] dist[i];
+    delete[] dist;
+    
+    return nodelist;
+}
+
 int Graph::findset(int *fa, int x)
 {
     if (fa[x] != x) fa[x] = findset(fa, fa[x]);

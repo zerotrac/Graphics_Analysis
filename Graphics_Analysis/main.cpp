@@ -58,5 +58,18 @@ int main(int argc, const char* argv[])
             edges->print(out);
         }
     }
+    else if (strcmp(argv[1], "CENTER") == 0)
+    {
+        if (strcmp(argv[3], "Between") == 0)
+        {
+            NodeIntList* nodelist = graph->betweenness();
+            nodelist->print(out);
+        }
+        else if (strcmp(argv[3], "Close") == 0)
+        {
+            NodeDoubleList* nodelist = graph->closeness();
+            nodelist->print(out);
+        }
+    }
     return 0;
 }

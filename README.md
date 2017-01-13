@@ -59,12 +59,31 @@
 
 输出的第一行为边数。
 
-输出的后面若干行表述了若干条边，按照路径的顺序。
+输出的后面若干行描述了若干条边，按照路径的顺序。
 
 输出的最后一行为边权之和（最短路的长度）。
 
 ### 中心度
-还没写
+(`algorithm_type`)为(`CENTER`)。
+
+(`algorithm_name`)可选(`Between`)或者(`Close`)，分别表示介数中心度和紧密中心度。
+
+(`parameter`)为空。
+
+##### 介数中心度：
+<pre>
+./graph CENTER center_between.txt Between
+</pre>
+正在看算法。
+
+##### 紧密中心度：
+<pre>
+./graph CENTER center_close.txt Close
+</pre>
+输出的第一行为节点数。
+
+输出的后面以实数的形式给出了每个点的紧密中心度。
+
 ### 联通分量
 还没写
 ### k短路

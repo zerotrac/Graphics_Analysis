@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <queue>
 #include "EdgeList.h"
+#include "NodeList.h"
 #include "Tuple2.h"
 #include "Tuple3.h"
 
@@ -51,7 +52,8 @@ public:
     EdgeList* dijkstra(int s, int t); // O(nlogn + m)
     
     // 中心度算法
-    
+    NodeIntList* betweenness(); // O(n^3)
+    NodeDoubleList* closeness(); // O(nlogn + mn)
 private:
     // kruskal算法辅助函数（并查集）
     int findset(int* fa, int x);
