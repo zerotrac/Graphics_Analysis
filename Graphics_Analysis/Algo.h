@@ -39,7 +39,7 @@ public:
             s.insert(x);
             s.insert(y);
         }
-        int* ref = new int[s.size()];
+        int* ref = new int[n];
         int cnt = 0;
         for (int elem: s) ref[elem] = cnt++;
         

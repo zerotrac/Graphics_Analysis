@@ -14,7 +14,6 @@ EdgeList::EdgeList(int _m)
     curM = 0;
     value = 0.0;
     
-    std::cerr << "m = " << m << " " << _m << std::endl;
     x = new int[m];
     y = new int[m];
     z = new double[m];

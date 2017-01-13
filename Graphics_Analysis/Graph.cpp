@@ -44,15 +44,11 @@ void Graph::addEdge(int x, int y, double z)
 
 EdgeList* Graph::prim()
 {
-    assert(m == curM);
-    
     return new EdgeList(1);
 }
 
 EdgeList* Graph::kruskal()
 {
-    assert(m == curM);
-    
     Tuple3* edges = new Tuple3[m];
     int cnt = 0;
     for (int u = 0; u < n; ++u)
@@ -65,7 +61,6 @@ EdgeList* Graph::kruskal()
         }
     }
     
-    assert(cnt == curM);
     std::sort(edges, edges + m);
     
     EdgeList* result = new EdgeList(n - 1);
@@ -84,6 +79,10 @@ EdgeList* Graph::kruskal()
             uni(fa, fx, fy);
         }
     }
+    
+    delete[] edges;
+    delete[] fa;
+    
     return result;
 }
 
@@ -95,6 +94,5 @@ int Graph::findset(int *fa, int x)
 
 void Graph::uni(int *fa, int x, int y)
 {
-    assert(x != y);
     if (x > y) fa[x] = y; else fa[y] = x;
 }

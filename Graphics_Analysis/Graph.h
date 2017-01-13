@@ -42,35 +42,6 @@ public:
     EdgeList* prim(); // O((nlogn + m)
     EdgeList* kruskal(); // O(mlogm)
     
-    void dfs(bool* used, int u, std::ostream& out)
-    {
-        out << u << " ";
-        used[u] = true;
-        for (int i = head[u]; i != -1; i = next[i])
-        {
-            int v = edge[i];
-            if (!used[v]) dfs(used, v, out);
-        }
-    }
-    
-    void check(std::ostream& out)
-    {
-        bool* used = new bool[n];
-        for (int i = 0; i < n; ++i) used[i] = false;
-        int p = 0;
-        for (int i = 0; i < n; ++i)
-        {
-            if (!used[i])
-            {
-                dfs(used, i, out);
-                out << std::endl;
-                out << std::endl;
-                ++p;
-            }
-        }
-        out << "blocks = " << p << std::endl;
-    }
-    
 private:
     // kruskal算法辅助函数（并查集）
     int findset(int* fa, int x);

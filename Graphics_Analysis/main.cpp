@@ -9,15 +9,14 @@
 #include "Graph.h"
 #include "Algo.h"
 
-int main(int argc, const char * argv[])
+int main(int argc, const char* argv[])
 {
-    Algo::discrete();
-    /*std::ifstream in("data.txt");
-    std::ofstream out("output.txt");
+    //Algo::discrete();
+    std::ifstream in("data_new.txt");
+    std::ofstream out(argv[2]);
     
     int n, m;
     in >> n >> m;
-    std::cerr << "n, m = " << n << " " << m << std::endl;
     Graph* graph = new Graph(n, m * 2);
     for (int i = 0; i < m; ++i)
     {
@@ -28,9 +27,19 @@ int main(int argc, const char * argv[])
         graph->addEdge(y, x, z);
     }
     
-    graph->check(out);
-    //EdgeList* edges = graph->kruskal();
-    //edges->print(out);*/
-    
+    if (strcmp(argv[1], "MST") == 0)
+    {
+        if (strcmp(argv[3], "Prim") == 0)
+        {
+            EdgeList* edges = graph->prim();
+            edges->print(out);
+        }
+        else if (strcmp(argv[3], "Kruskal") == 0)
+        {
+            std::cout << "good\n";
+            EdgeList* edges = graph->kruskal();
+            edges->print(out);
+        }
+    }
     return 0;
 }
