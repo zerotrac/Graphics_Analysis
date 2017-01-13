@@ -43,13 +43,18 @@ public:
     void addEdge(int x, int y, double z); // 添加x->y，权值为z的边
     
     // 最小生成树算法
-    EdgeList* prim(); // O((nlogn + m)
+    EdgeList* prim(); // O(nlogn + m)
     EdgeList* kruskal(); // O(mlogm)
+    
+    // 最短路算法
+    EdgeList* spfa(int s, int t); // O(km), k的期望大约为2
+    EdgeList* dijkstra(int s, int t); // O(nlogn + m)
     
 private:
     // kruskal算法辅助函数（并查集）
     int findset(int* fa, int x);
     void uni(int* fa, int x, int y);
+    void build(EdgeList* result, const double* dist, const int* prev, int curNode);
 };
 
 #endif

@@ -22,6 +22,9 @@
 
 class Algo
 {
+private:
+    constexpr static double INFINITY = 999999999.0;
+    
 public:
     static void discrete()
     {
@@ -69,6 +72,68 @@ public:
                 out << i << " " << j << " " << rand() % 100 + 1 << std::endl;
             }
         }
+    }
+    
+    static int parseInt(const char* arg)
+    {
+        int len = static_cast<int>(strlen(arg));
+        int result = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            if (!(arg[i] >= '0' && arg[i] <= '9')) return 0;
+            result = result * 10 + arg[i] - 48;
+        }
+        return result;
+    }
+    
+    static void floyd()
+    {
+        std::ifstream in("data_new.txt");
+        double** dist;
+        int n, m;
+        in >> n >> m;
+        dist = new double*[n];
+        for (int i = 0; i < n; ++i)
+        {
+            dist[i] = new double[n];
+            for (int j = 0; j < n; ++j)
+            {
+                dist[i][j] = INFINITY;
+            }
+        }
+        for (int i = 0; i < m; ++i)
+        {
+            int x, y;
+            double z;
+            in >> x >> y >> z;
+            dist[x][y] = dist[y][x] = z;
+        }
+        for (int k = 0; k < n; ++k)
+        {
+            for (int i = 0; i < n; ++i)
+                for (int j = 0; j < n; ++j)
+                {
+                    if (dist[i][k] + dist[k][j] < dist[i][j])
+                    {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            std::cout << "k = " << k << " complete\n";
+        }
+        int xx = 0, yy = 0;
+        double zz = 0.0;
+        for (int i = 0; i < n; ++i)
+            for (int j = 0; j < n; ++j)
+                if (dist[i][j] > zz)
+                {
+                    xx = i;
+                    yy = j;
+                    zz = dist[i][j];
+                }
+        std::cout << "min = " << xx << " " << yy << " " << zz << std::endl;
+        
+        for (int i = 0; i < n; ++i) delete[] dist[i];
+        delete[] dist;
     }
 };
 

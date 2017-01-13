@@ -131,6 +131,66 @@ EdgeList* Graph::kruskal()
     return result;
 }
 
+EdgeList* Graph::dijkstra(int s, int t)
+{
+    std::priority_queue<Tuple2> q;
+    double* dist = new double[n];
+    bool* used = new bool[n];
+    int* prev = new int[n];
+    for (int i = 0; i < n; ++i)
+    {
+        dist[i] = INFINITY;
+        used[i] = false;
+        prev[i] = -1;
+    }
+    dist[s] = 0.0;
+    q.push(Tuple2(s, dist[s]));
+    //EdgeList* result = new EdgeList(n - 1);
+    
+    while (!q.empty())
+    {
+        Tuple2 cur = q.top();
+        int u = cur.x;
+        double w = cur.y;
+        q.pop();
+        if (used[u]) continue;
+        used[u] = true;
+        for (int i = head[u]; i != -1; i = next[i])
+        {
+            int v = edge[i];
+            double ww = w + value[i];
+            if (!used[v] && ww < dist[v])
+            {
+                dist[v] = ww;
+                prev[v] = u;
+                q.push(Tuple2(v, dist[v]));
+            }
+        }
+    }
+    int edgesCount = 0;
+    int curNode = t;
+    while (curNode != s)
+    {
+        ++edgesCount;
+        curNode = prev[curNode];
+    }
+    EdgeList* result = new EdgeList(edgesCount);
+    std::cout << "s, t = " << s << " " << t << std::endl;
+    build(result, dist, prev, t);
+    
+    delete[] dist;
+    delete[] used;
+    delete[] prev;
+    
+    return result;
+}
+
+EdgeList* Graph::spfa(int s, int t)
+{
+    
+    return new EdgeList(0);
+}
+
 int Graph::findset(int *fa, int x)
 {
     if (fa[x] != x) fa[x] = findset(fa, fa[x]);
@@ -140,4 +200,11 @@ int Graph::findset(int *fa, int x)
 void Graph::uni(int *fa, int x, int y)
 {
     if (x > y) fa[x] = y; else fa[y] = x;
+}
+
+void Graph::build(EdgeList* result, const double* dist, const int* prev, int curNode)
+{
+    if (prev[curNode] != -1) build(result, dist, prev, prev[curNode]); else return;
+    std::cout << "x, y = " << prev[curNode] << " " << curNode << std::endl;
+    result->addEdge(prev[curNode], curNode, dist[curNode] - dist[prev[curNode]]);
 }

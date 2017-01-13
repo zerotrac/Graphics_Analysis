@@ -13,6 +13,7 @@ int main(int argc, const char* argv[])
 {
     //Algo::discrete();
     //Algo::randomGraph();
+    Algo::floyd();
     std::ifstream in("data_new.txt");
     std::ofstream out(argv[2]);
     out << std::fixed << std::setprecision(3);
@@ -39,6 +40,21 @@ int main(int argc, const char* argv[])
         else if (strcmp(argv[3], "Kruskal") == 0)
         {
             EdgeList* edges = graph->kruskal();
+            edges->print(out);
+        }
+    }
+    else if (strcmp(argv[1], "PATH") == 0)
+    {
+        int source = Algo::parseInt(argv[4]);
+        int terminal = Algo::parseInt(argv[5]);
+        if (strcmp(argv[3], "Dijkstra") == 0)
+        {
+            EdgeList* edges = graph->dijkstra(source, terminal);
+            edges->print(out);
+        }
+        else if (strcmp(argv[3], "Spfa") == 0)
+        {
+            EdgeList* edges = graph->spfa(source, terminal);
             edges->print(out);
         }
     }
