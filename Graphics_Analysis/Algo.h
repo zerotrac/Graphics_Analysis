@@ -12,6 +12,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <ctime>
 #include <set>
 #include "Tuple3.h"
 
@@ -52,6 +53,22 @@ public:
         
         delete[] edges;
         delete[] ref;
+    }
+    
+    static void randomGraph()
+    {
+        std::ofstream out("data_new.txt");
+        int n = 20;
+        int m = n * (n - 1) / 2;
+        out << n << " " << m << std::endl;
+        srand((unsigned)time(nullptr));
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = i + 1; j < n; ++j)
+            {
+                out << i << " " << j << " " << rand() % 100 + 1 << std::endl;
+            }
+        }
     }
 };
 

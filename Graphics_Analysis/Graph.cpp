@@ -44,7 +44,52 @@ void Graph::addEdge(int x, int y, double z)
 
 EdgeList* Graph::prim()
 {
-    return new EdgeList(1);
+    std::priority_queue<Tuple2> q;
+    double* dist = new double[n];
+    bool* used = new bool[n];
+    int* prev = new int[n];
+    for (int i = 0; i < n; ++i)
+    {
+        dist[i] = INFINITY;
+        used[i] = false;
+        prev[i] = -1;
+    }
+    dist[0] = 0.0;
+    q.push(Tuple2(0, dist[0]));
+    EdgeList* result = new EdgeList(n - 1);
+    
+    while (!q.empty())
+    {
+        Tuple2 cur = q.top();
+        int u = cur.x;
+        q.pop();
+        if (used[u]) continue;
+        used[u] = true;
+        for (int i = head[u]; i != -1; i = next[i])
+        {
+            int v = edge[i];
+            double ww = value[i];
+            if (!used[v] && ww < dist[v])
+            {
+                dist[v] = ww;
+                prev[v] = u;
+                q.push(Tuple2(v, dist[v]));
+            }
+        }
+    }
+    for (int i = 0; i < n; ++i)
+    {
+        if (prev[i] != -1)
+        {
+            result->addEdge(i, prev[i], dist[i]);
+        }
+    }
+    
+    delete[] dist;
+    delete[] used;
+    delete[] prev;
+    
+    return result;
 }
 
 EdgeList* Graph::kruskal()

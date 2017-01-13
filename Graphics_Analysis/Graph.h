@@ -11,6 +11,7 @@
 
 #include <cassert>
 #include <algorithm>
+#include <queue>
 #include "EdgeList.h"
 #include "Tuple2.h"
 #include "Tuple3.h"
@@ -20,6 +21,9 @@
 
 class Graph
 {
+private:
+    constexpr static double INFINITY = 999999999.0;
+    
 private:
     int n; // 节点数
     int m; // 边数

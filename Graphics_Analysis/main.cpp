@@ -12,6 +12,7 @@
 int main(int argc, const char* argv[])
 {
     //Algo::discrete();
+    //Algo::randomGraph();
     std::ifstream in("data_new.txt");
     std::ofstream out(argv[2]);
     
@@ -36,7 +37,6 @@ int main(int argc, const char* argv[])
         }
         else if (strcmp(argv[3], "Kruskal") == 0)
         {
-            std::cout << "good\n";
             EdgeList* edges = graph->kruskal();
             edges->print(out);
         }
