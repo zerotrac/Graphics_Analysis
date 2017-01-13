@@ -50,7 +50,7 @@ EdgeList* Graph::prim()
     int* prev = new int[n];
     for (int i = 0; i < n; ++i)
     {
-        dist[i] = INFINITY;
+        dist[i] = INF;
         used[i] = false;
         prev[i] = -1;
     }
@@ -139,7 +139,7 @@ EdgeList* Graph::dijkstra(int s, int t)
     bool* used = new bool[n];
     for (int i = 0; i < n; ++i)
     {
-        dist[i] = INFINITY;
+        dist[i] = INF;
         used[i] = false;
         prev[i] = -1;
     }
@@ -192,7 +192,7 @@ EdgeList* Graph::spfa(int s, int t)
     bool* used = new bool[n];
     for (int i = 0; i < n; ++i)
     {
-        dist[i] = INFINITY;
+        dist[i] = INF;
         prev[i] = -1;
         used[i] = false;
     }
@@ -238,9 +238,125 @@ EdgeList* Graph::spfa(int s, int t)
     return result;
 }
 
-NodeIntList* Graph::betweenness()
+NodeDoubleList* Graph::betweenness()
 {
-    return new NodeIntList(0);
+    double* cb = new double[n]; // CB[v]
+    for (int i = 0; i < n; ++i)
+    {
+        cb[i] = 0.0;
+    }
+    
+    double** dist = new double*[n];
+    for (int i = 0; i < n; ++i)
+    {
+        dist[i] = new double[n];
+        for (int j = 0; j < n; ++j)
+        {
+            dist[i][j] = INF;
+        }
+        dist[i][i] = 0.0;
+    }
+    for (int u = 0; u < n; ++u)
+    {
+        for (int i = head[u]; i != -1; i = next[i])
+        {
+            int v = edge[i];
+            if (value[i] < dist[u][v]) dist[u][v] = value[i];
+        }
+    }
+    for (int k = 0; k < n; ++k)
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                if (dist[i][k] + dist[k][j] < dist[i][j])
+                {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+    std::cout << "good\n";
+    double* sigma = new double[n];
+    bool* used = new bool[n];
+    int* order = new int[n];
+    double* sum = new double[n];
+    
+    for (int s = 0; s < n; ++s)
+    {
+        std::vector<std::vector<int>> p(n);
+        std::priority_queue<Tuple2> q;
+        
+        for (int i = 0; i < n; ++i)
+        {
+            sigma[i] = 0.0;
+            used[i] = false;
+            sum[i] = 0.0;
+        }
+        sigma[s] = 1.0;
+        
+        int od = 0;
+        for (int i = 0; i < n; ++i)
+        {
+            int sel = 0;
+            for (int j = 1; j < n; ++j)
+            {
+                if (!used[j])
+                {
+                    if (used[sel] || dist[s][j] < dist[s][sel]) sel = j;
+                }
+            }
+            order[od++] = sel;
+            used[sel] = true;
+        }
+        
+        int cnttt = 0;
+        for (int i = 0; i < od; ++i)
+        {
+            int u = order[i];
+            for (int j = head[u]; j != -1; j = next[j])
+            {
+                int v = edge[j];
+                double w = value[j];
+                if (std::fabs(dist[s][v] - dist[s][u] - w) < 1e-6)
+                {
+                    sigma[v] += sigma[u];
+                    p[v].push_back(u);
+                    ++cnttt;
+                }
+            }
+        }
+        for (int i = od - 1; i >= 0; --i)
+        {
+            int u = order[i];
+            for (int v: p[u])
+            {
+                sum[v] += (sigma[v] / sigma[u]) * (1.0 + sum[u]);
+            }
+            if (u != s)
+            {
+                cb[u] += sum[u] / 2.0;
+            }
+        }
+    }
+    
+    NodeDoubleList* nodelist = new NodeDoubleList(n);
+    for (int i = 0; i < n; ++i)
+    {
+        nodelist->setValue(i, cb[i]);
+    }
+
+    for (int i = 0; i < n; ++i) delete[] dist[i];
+    delete[] dist;
+    
+    delete[] sigma;
+    delete[] used;
+    delete[] order;
+    delete[] sum;
+    delete[] cb;
+    
+    return nodelist;
 }
 
 NodeDoubleList* Graph::closeness()
@@ -251,15 +367,16 @@ NodeDoubleList* Graph::closeness()
         dist[i] = new double[n];
         for (int j = 0; j < n; ++j)
         {
-            dist[i][j] = INFINITY;
+            dist[i][j] = INF;
         }
+        dist[i][i] = 0.0;
     }
     for (int u = 0; u < n; ++u)
     {
         for (int i = head[u]; i != -1; i = next[i])
         {
             int v = edge[i];
-            dist[u][v] = value[i];
+            if (value[i] < dist[u][v]) dist[u][v] = value[i];
         }
     }
     for (int k = 0; k < n; ++k)

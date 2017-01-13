@@ -62,7 +62,7 @@ int main(int argc, const char* argv[])
     {
         if (strcmp(argv[3], "Between") == 0)
         {
-            NodeIntList* nodelist = graph->betweenness();
+            NodeDoubleList* nodelist = graph->betweenness();
             nodelist->print(out);
         }
         else if (strcmp(argv[3], "Close") == 0)

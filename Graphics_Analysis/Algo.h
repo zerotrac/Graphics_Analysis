@@ -23,7 +23,7 @@
 class Algo
 {
 private:
-    constexpr static double INFINITY = 999999999.0;
+    constexpr static double INF = 999999999.0;
     
 public:
     static void discrete()
@@ -98,15 +98,16 @@ public:
             dist[i] = new double[n];
             for (int j = 0; j < n; ++j)
             {
-                dist[i][j] = INFINITY;
+                dist[i][j] = INF;
             }
+            dist[i][i] = 0.0;
         }
         for (int i = 0; i < m; ++i)
         {
             int x, y;
             double z;
             in >> x >> y >> z;
-            dist[x][y] = dist[y][x] = z;
+            if (z < dist[x][y]) dist[x][y] = dist[y][x] = z;
         }
         for (int k = 0; k < n; ++k)
         {

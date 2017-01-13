@@ -9,9 +9,11 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <cassert>
 #include <algorithm>
 #include <queue>
+#include <stack>
+#include <vector>
+#include <cmath>
 #include "EdgeList.h"
 #include "NodeList.h"
 #include "Tuple2.h"
@@ -23,7 +25,7 @@
 class Graph
 {
 private:
-    constexpr static double INFINITY = 999999999.0;
+    constexpr static double INF = 999999999.0;
     
 private:
     int n; // 节点数
@@ -52,8 +54,8 @@ public:
     EdgeList* dijkstra(int s, int t); // O(nlogn + m)
     
     // 中心度算法
-    NodeIntList* betweenness(); // O(n^3)
-    NodeDoubleList* closeness(); // O(nlogn + mn)
+    NodeDoubleList* betweenness(); // O(nlogn + mn)
+    NodeDoubleList* closeness(); // O(n^3)
 private:
     // kruskal算法辅助函数（并查集）
     int findset(int* fa, int x);
