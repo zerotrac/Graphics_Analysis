@@ -14,8 +14,7 @@
 #include <stack>
 #include <vector>
 #include <cmath>
-#include "EdgeList.h"
-#include "NodeList.h"
+#include "ConnectList.h"
 #include "Tuple2.h"
 #include "Tuple3.h"
 
@@ -56,11 +55,16 @@ public:
     // 中心度算法
     NodeDoubleList* betweenness(); // O(nlogn + mn)
     NodeDoubleList* closeness(); // O(n^3)
+    
+    // 连通度算法
+    ConnectList* component(int movieRelation, double scoreRelation);
+    
 private:
-    // kruskal算法辅助函数（并查集）
+    // 算法辅助函数
     int findset(int* fa, int x);
     void uni(int* fa, int x, int y);
     void build(EdgeList* result, const double* dist, const int* prev, int curNode);
+    void bfs(int node, int compCount, bool* used, int* group, std::vector<Tuple3>& edges, int movieRelation, double scoreRelation);
 };
 
 #endif

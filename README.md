@@ -6,6 +6,7 @@
 <pre>
 ./graph &lt;algorithm_type&gt; &lt;output_file_name&gt; &lt;algorithm_name&gt; &lt;parameter1&gt; &lt;parameter2&gt; …
 </pre>
+
 (`alorithm_type`)表示算法类型。
 
 (`output_file_name`)表示输出文件名。
@@ -19,7 +20,7 @@
 * 最小生成树
 * 最短路
 * 中心度
-* 联通分量（联通支）
+* 连通分量（联通支）
 * k短路
 
 ### 最小生成树
@@ -36,6 +37,7 @@
 <pre>
 ./graph MST mst_kruskal.txt Kruskal
 </pre>
+
 输出的第一行为边数，它一定为n-1。
 
 输出的后面若干行表述了这n-1条边，和输入的描述方式完全相同。
@@ -55,6 +57,7 @@
 <pre>
 ./graph PATH path_spfa.txt Spfa 310 479
 </pre>
+
 原图非常密集，直径为6.700，就是310和479为两个端点。
 
 输出的第一行为边数。
@@ -74,6 +77,7 @@
 <pre>
 ./graph CENTER center_between.txt Between
 </pre>
+
 算法时间复杂度较高（总时间大约3s）。
 
 输出的第一行为节点数。
@@ -84,12 +88,30 @@
 <pre>
 ./graph CENTER center_close.txt Close
 </pre>
+
 输出的第一行为节点数。
 
 输出的后面以实数的形式给出了每个点的紧密中心度。
 
-### 联通分量
-还没写
+### 连通分量
+(`algorithm_type`)为(`CONNECT`)。
+
+(`algorithm_name`)为(`Default`)。
+
+(`parameter`)有两项，第一项表示共同看过电影数目的最小值，第二项表示评分相似度的最小值。由于评分相似度是一个在0.1~0.9之间的<b>三位小数</b>，因此第二项参数为一个100~900之间的<b>整数</b>，程序会将其除以1000之后再搜索。
+
+<pre>
+./graph CONNECT connection.txt Default 10 500
+</pre>
+
+输出的第一行表示连通支的个数connCount。
+
+输出的第二行表示节点数n，随后的n行每行有一个在[1, connCount]范围的整数，表示该节点属于的连通支。
+
+在这之后有一个整数m表示边数，随后的m行每行表述了一条边，表示连通支的边的情况。每个连通支为一棵树。
+
+注意到一定有 n = connCount + m。
+
 ### k短路
 还没写
 

@@ -420,6 +420,38 @@ NodeDoubleList* Graph::closeness()
     return nodelist;
 }
 
+ConnectList* Graph::component(int movieRelation, double scoreRelation)
+{
+    std::vector<Tuple3> edges;
+    bool* used = new bool[n];
+    int* group = new int[n];
+    int compCount = 0;
+    
+    for (int i = 0; i < n; ++i)
+    {
+        used[i] = false;
+        group[i] = -1;
+    }
+    
+    for (int i = 0; i < n; ++i)
+    {
+        if (!used[i])
+        {
+            bfs(i, ++compCount, used, group, edges, movieRelation, scoreRelation);
+        }
+    }
+    
+    ConnectList* result = new ConnectList(n, (int)edges.size());
+    result->setConnection(compCount);
+    for (int i = 0; i < n; ++i) result->setValue(i, group[i]);
+    for (Tuple3 elem: edges) result->addEdge(elem.x, elem.y, elem.z);
+    
+    delete[] used;
+    delete[] group;
+    
+    return result;
+}
+
 int Graph::findset(int *fa, int x)
 {
     if (fa[x] != x) fa[x] = findset(fa, fa[x]);
@@ -435,4 +467,36 @@ void Graph::build(EdgeList* result, const double* dist, const int* prev, int cur
 {
     if (prev[curNode] != -1) build(result, dist, prev, prev[curNode]); else return;
     result->addEdge(prev[curNode], curNode, dist[curNode] - dist[prev[curNode]]);
+}
+
+void Graph::bfs(int node, int compCount, bool *used, int *group, std::vector<Tuple3> &edges, int movieRelation, double scoreRelation)
+{
+    std::queue<int> q;
+    q.push(node);
+    used[node] = true;
+    group[node] = compCount;
+    
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        
+        for (int i = head[u]; i != -1; i = next[i])
+        {
+            int v = edge[i];
+            if (!used[v])
+            {
+                double w = value[i];
+                int p1 = (int)w;
+                double p2 = w - p1;
+                if (p1 >= movieRelation && p2 + 1e-7 >= scoreRelation)
+                {
+                    q.push(v);
+                    used[v] = true;
+                    group[v] = compCount;
+                    edges.push_back(Tuple3(u, v, w));
+                }
+            }
+        }
+    }
 }

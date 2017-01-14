@@ -71,5 +71,15 @@ int main(int argc, const char* argv[])
             nodelist->print(out);
         }
     }
+    else if (strcmp(argv[1], "CONNECT") == 0)
+    {
+        if (strcmp(argv[3], "Default") == 0)
+        {
+            int para1 = Algo::parseInt(argv[4]);
+            int para2 = Algo::parseInt(argv[5]);
+            ConnectList* connectlist = graph->component(para1, para2 / 1000.0);
+            connectlist->print(out);
+        }
+    }
     return 0;
 }
