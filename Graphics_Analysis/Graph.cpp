@@ -238,6 +238,91 @@ EdgeList* Graph::spfa(int s, int t)
     return result;
 }
 
+EdgeList* Graph::kpath(int s, int t, int kth)
+{
+    std::priority_queue<Tuple2> q;
+    double* dist = new double[n];
+    int* prev = new int[n];
+    bool* used = new bool[n];
+    for (int i = 0; i < n; ++i)
+    {
+        dist[i] = INF;
+        used[i] = false;
+        prev[i] = -1;
+    }
+    dist[t] = 0.0;
+    q.push(Tuple2(t, dist[t]));
+    
+    while (!q.empty())
+    {
+        Tuple2 cur = q.top();
+        int u = cur.x;
+        double w = cur.y;
+        q.pop();
+        if (used[u]) continue;
+        used[u] = true;
+        for (int i = head[u]; i != -1; i = next[i])
+        {
+            int v = edge[i];
+            double ww = w + value[i];
+            if (!used[v] && ww < dist[v])
+            {
+                dist[v] = ww;
+                prev[v] = u;
+                q.push(Tuple2(v, dist[v]));
+            }
+        }
+    }
+    
+    std::priority_queue<Tuple2New> q2;
+    std::vector<Tuple2New> vec;
+    q2.push(Tuple2New(s, dist[s], 0, -1));
+    vec.push_back(Tuple2New(s, dist[s], 0, -1));
+    
+    int lcnt = 0;
+    int curk = 0;
+    
+    EdgeList* result;
+    while (!q2.empty())
+    {
+        Tuple2New cur = q2.top();
+        int u = cur.x;
+        double w = cur.y;
+        q2.pop();
+        if (u == t)
+        {
+            ++curk;
+            if (curk == kth)
+            {
+                
+                int edgesCount = 0;
+                int curLabel = cur.label;
+                while (curLabel != 0)
+                {
+                    ++edgesCount;
+                    curLabel = vec[curLabel].fa;
+                }
+                result = new EdgeList(edgesCount);
+                build2(result, cur.label, dist, vec);
+                break;
+            }
+        }
+        for (int i = head[u]; i != -1; i = next[i])
+        {
+            int v = edge[i];
+            double ww = value[i];
+            q2.push(Tuple2New(v, w + ww + dist[v] - dist[u], ++lcnt, cur.label));
+            vec.push_back(Tuple2New(v, w + ww + dist[v] - dist[u], lcnt, cur.label));
+        }
+    }
+    
+    delete[] dist;
+    delete[] prev;
+    delete[] used;
+    
+    return result;
+}
+
 NodeDoubleList* Graph::betweenness()
 {
     double* cb = new double[n]; // CB[v]
@@ -467,6 +552,13 @@ void Graph::build(EdgeList* result, const double* dist, const int* prev, int cur
 {
     if (prev[curNode] != -1) build(result, dist, prev, prev[curNode]); else return;
     result->addEdge(prev[curNode], curNode, dist[curNode] - dist[prev[curNode]]);
+}
+
+void Graph::build2(EdgeList* result, int curLabel, const double* dist, const std::vector<Tuple2New>& v)
+{
+    if (v[curLabel].fa != -1) build2(result, v[curLabel].fa, dist, v); else return;
+    double value = (v[curLabel].y - v[v[curLabel].fa].y) - (dist[v[curLabel].x] - dist[v[v[curLabel].fa].x]);
+    result->addEdge(v[v[curLabel].fa].x, v[curLabel].x, value);
 }
 
 void Graph::bfs(int node, int compCount, bool *used, int *group, std::vector<Tuple3> &edges, int movieRelation, double scoreRelation)

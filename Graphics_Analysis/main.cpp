@@ -81,5 +81,16 @@ int main(int argc, const char* argv[])
             connectlist->print(out);
         }
     }
+    else if (strcmp(argv[1], "KPATH") == 0)
+    {
+        if (strcmp(argv[3], "Default") == 0)
+        {
+            int source = Algo::parseInt(argv[4]);
+            int terminal = Algo::parseInt(argv[5]);
+            int kth = Algo::parseInt(argv[6]);
+            EdgeList* edges = graph->kpath(source, terminal, kth);
+            edges->print(out);
+        }
+    }
     return 0;
 }

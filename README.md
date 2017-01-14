@@ -21,7 +21,7 @@
 * 最短路
 * 中心度
 * 连通分量（联通支）
-* k短路
+* K-短路
 
 ### 最小生成树
 (`algorithm_type`)为(`MST`)。
@@ -112,6 +112,16 @@
 
 注意到一定有 n = connCount + m。
 
-### k短路
-还没写
+### K-短路
+(`algorithm_type`)为(`KPATH`)。
+
+(`algorithm_name`)为(`Default`)。
+
+(`parameter`)有三项，前两项表示起点和终点，最后一项表示K。K&leq;10000时需要的时间少于3秒。
+
+<pre>
+./graph KPATH kpath.txt Default 310 479 10001
+</pre>
+
+输出和最短路的形式相同。
 

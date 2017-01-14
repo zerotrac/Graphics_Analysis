@@ -16,6 +16,7 @@
 #include <cmath>
 #include "ConnectList.h"
 #include "Tuple2.h"
+#include "Tuple2New.h"
 #include "Tuple3.h"
 
 // 图类
@@ -51,6 +52,7 @@ public:
     // 最短路算法
     EdgeList* spfa(int s, int t); // O(km), k的期望大约为2
     EdgeList* dijkstra(int s, int t); // O(nlogn + m)
+    EdgeList* kpath(int s, int t, int kth); // O(nlogn + m + kn)
     
     // 中心度算法
     NodeDoubleList* betweenness(); // O(nlogn + mn)
@@ -64,6 +66,7 @@ private:
     int findset(int* fa, int x);
     void uni(int* fa, int x, int y);
     void build(EdgeList* result, const double* dist, const int* prev, int curNode);
+    void build2(EdgeList* result, int curLabel, const double* dist, const std::vector<Tuple2New>& v);
     void bfs(int node, int compCount, bool* used, int* group, std::vector<Tuple3>& edges, int movieRelation, double scoreRelation);
 };
 
