@@ -8,6 +8,8 @@
 
 #include "Graph.h"
 
+const double Graph::INF = 999999999.0;
+
 Graph::Graph(int _n, int _m)
 {
     n = _n;

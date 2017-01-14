@@ -25,7 +25,7 @@
 class Graph
 {
 private:
-    constexpr static double INF = 999999999.0;
+    static const double INF;
     
 private:
     int n; // 节点数

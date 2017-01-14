@@ -23,7 +23,7 @@
 class Algo
 {
 private:
-    constexpr static double INF = 999999999.0;
+    static const double INF;
     
 public:
     static void discrete()
@@ -142,5 +142,7 @@ public:
         delete[] dist;
     }
 };
+
+const double Algo::INF = 999999999.0;
 
 #endif
